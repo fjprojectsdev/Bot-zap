@@ -2,21 +2,12 @@ import { spawn } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { validatePath } from './functions/security.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 let botProcess = null;
 
 function startBot() {
     console.log('🚀 Iniciando bot...');
-    
-    try {
-        validatePath(__dirname);
-        validatePath(path.join(__dirname, 'index.js'));
-    } catch (pathError) {
-        console.error('⚠️ Path inválido:', pathError.message);
-        return;
-    }
     
     botProcess = spawn('node', ['index.js'], {
         cwd: __dirname,
