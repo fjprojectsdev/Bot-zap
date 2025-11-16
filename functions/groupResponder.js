@@ -58,6 +58,18 @@ export async function handleGroupMessages(sock, message) {
         return;
     }
 
+    // Verificar comando /regras em qualquer grupo
+    if (isGroup && text.toLowerCase().includes('/regras')) {
+        console.log(`🔍 Buscando descrição do grupo: ${groupId}`);
+        const groupMetadata = await sock.groupMetadata(groupId);
+        const groupDescription = groupMetadata.desc || 'Nenhuma descrição disponível para este grupo.';
+        
+        const msgRegras = await sock.sendMessage(groupId, { text: groupDescription });
+        console.log(msgRegras ? '✅ Descrição do grupo enviada' : '❌ Falha ao enviar descrição');
+        return;
+    }
+
+    // Restringir outros comandos ao TARGET_GROUP
     if (!isGroup || groupId !== TARGET_GROUP) return;
 
     text = '';
@@ -75,8 +87,8 @@ export async function handleGroupMessages(sock, message) {
 
     console.log(`💬 Mensagem de ${senderId}: "${text}"`);
 
-    // Comandos /fechar, /abrir, /fixar, /regras, /status, /banir, /bloqueartermo, /bloquearlink, /removertermo, /removerlink, /listatermos, /comandos, /gpt
-    if (text.toLowerCase().includes('/fechar') || text.toLowerCase().includes('/abrir') || text.toLowerCase().includes('/fixar') || text.toLowerCase().includes('/regras') || text.toLowerCase().includes('/status') || text.toLowerCase().includes('/banir') || text.toLowerCase().includes('/bloqueartermo') || text.toLowerCase().includes('/bloquearlink') || text.toLowerCase().includes('/removertermo') || text.toLowerCase().includes('/removerlink') || text.toLowerCase().includes('/listatermos') || text.toLowerCase().includes('/comandos') || text.toLowerCase().includes('/gpt')) {
+    // Comandos /fechar, /abrir, /fixar, /status, /banir, /bloqueartermo, /bloquearlink, /removertermo, /removerlink, /listatermos, /comandos, /gpt
+    if (text.toLowerCase().includes('/fechar') || text.toLowerCase().includes('/abrir') || text.toLowerCase().includes('/fixar') || text.toLowerCase().includes('/status') || text.toLowerCase().includes('/banir') || text.toLowerCase().includes('/bloqueartermo') || text.toLowerCase().includes('/bloquearlink') || text.toLowerCase().includes('/removertermo') || text.toLowerCase().includes('/removerlink') || text.toLowerCase().includes('/listatermos') || text.toLowerCase().includes('/comandos') || text.toLowerCase().includes('/gpt')) {
         try {
             if (text.toLowerCase().includes('/fechar')) {
                 await sock.groupSettingUpdate(groupId, 'announcement');
@@ -115,13 +127,7 @@ export async function handleGroupMessages(sock, message) {
                     const msgErroFixar = await sock.sendMessage(groupId, { text: '❌ *Uso incorreto!*\n\n📝 Use: `/fixar sua mensagem aqui`\n\nExemplo: `/fixar Reunião amanhã às 15h`' }, { quoted: message });
                     console.log(msgErroFixar ? '✅ Mensagem de erro fixar enviada' : '❌ Falha ao enviar erro fixar');
                 }
-            } else if (text.toLowerCase().includes('/regras')) {
-                console.log(`🔍 Buscando descrição do grupo: ${groupId}`);
-                const groupMetadata = await sock.groupMetadata(groupId);
-                const groupDescription = groupMetadata.desc || 'Nenhuma descrição disponível para este grupo.';
-                
-                const msgRegras = await sock.sendMessage(groupId, { text: groupDescription });
-                console.log(msgRegras ? '✅ Descrição do grupo enviada' : '❌ Falha ao enviar descrição');
+
             } else if (text.toLowerCase().includes('/status')) {
                 console.log('📊 ➜ Comando /status executado');
                 const statusMessage = await getGroupStatus(sock, groupId);
