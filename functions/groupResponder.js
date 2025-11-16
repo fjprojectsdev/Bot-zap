@@ -116,12 +116,12 @@ export async function handleGroupMessages(sock, message) {
                     console.log(msgErroFixar ? '✅ Mensagem de erro fixar enviada' : '❌ Falha ao enviar erro fixar');
                 }
             } else if (text.toLowerCase().includes('/regras')) {
-                console.log(`🔍 Buscando regras para o grupo: ${groupId}`);
-                const groupRulesData = getGroupRules(groupId);
-                console.log(`📋 Regras encontradas para: ${groupRulesData.name}`);
+                console.log(`🔍 Buscando descrição do grupo: ${groupId}`);
+                const groupMetadata = await sock.groupMetadata(groupId);
+                const groupDescription = groupMetadata.desc || 'Nenhuma descrição disponível para este grupo.';
                 
-                const msgRegras = await sock.sendMessage(groupId, { text: groupRulesData.rules });
-                console.log(msgRegras ? '✅ Regras enviadas com sucesso' : '❌ Falha ao enviar regras');
+                const msgRegras = await sock.sendMessage(groupId, { text: groupDescription });
+                console.log(msgRegras ? '✅ Descrição do grupo enviada' : '❌ Falha ao enviar descrição');
             } else if (text.toLowerCase().includes('/status')) {
                 console.log('📊 ➜ Comando /status executado');
                 const statusMessage = await getGroupStatus(sock, groupId);
