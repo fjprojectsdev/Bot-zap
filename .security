@@ -1,0 +1,44 @@
+# Configurações de Segurança - iMavyBot
+
+## Medidas Implementadas:
+
+### 1. Credenciais Seguras
+- ✅ Removidas credenciais hardcoded
+- ✅ Uso de variáveis de ambiente (.env)
+- ✅ Validação de tokens de API
+
+### 2. Prevenção de Ataques
+- ✅ Validação de URLs (anti-SSRF)
+- ✅ Sanitização de entrada de usuário
+- ✅ Prevenção de Path Traversal
+- ✅ Rate limiting por usuário
+
+### 3. Dependências Seguras
+- ✅ Atualização de pacotes vulneráveis
+- ✅ Nome de pacote com escopo (@imavy/bot2)
+
+### 4. Domínios Permitidos
+- seventvpainel.top
+- api.huggingface.co
+- router.huggingface.co
+- api.openai.com
+- api.groq.com
+- openrouter.ai
+- wttr.in
+- api.exchangerate-api.com
+
+### 5. Rate Limiting
+- Máximo 20 mensagens por minuto por usuário
+- Limpeza automática de dados antigos
+
+### 6. Validações Implementadas
+- Sanitização de entrada HTML/JS
+- Validação de paths de arquivo
+- Verificação de domínios permitidos
+- Prevenção de IPs privados/locais
+
+## Próximos Passos Recomendados:
+1. Executar `npm audit fix` para corrigir vulnerabilidades
+2. Implementar logs de segurança
+3. Configurar monitoramento de tentativas de ataque
+4. Revisar permissões de arquivos regularmente
