@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "start": "node index.js",
+    "build": "echo 'Build complete'",
     "dev": "node watcher.js",
     "test-iptv": "node test-iptv.js",
     "test-iptv-melhorado": "node test-iptv-melhorado.js",
