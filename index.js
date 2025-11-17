@@ -7,14 +7,24 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-import { sendWelcomeMessage } from './functions/welcomeMessage.js';
-import { checkViolation, notifyAdmins, notifyUser, logViolation } from './functions/antiSpam.js';
-import { addStrike, applyPunishment } from './functions/strikeSystem.js';
-import { incrementViolation, getGroupStatus } from './functions/groupStats.js';
-import { handleGroupMessages } from './functions/groupResponder.js';
-import { isAuthorized } from './functions/adminCommands.js';
-import { getNumberFromJid, formatNumberInternational } from './functions/utils.js';
-import { scheduleGroupMessages } from './functions/scheduler.js';
+// Imports condicionais para evitar erros
+let sendWelcomeMessage, checkViolation, notifyAdmins, notifyUser, logViolation;
+let addStrike, applyPunishment, incrementViolation, getGroupStatus;
+let handleGroupMessages, isAuthorized, getNumberFromJid, formatNumberInternational;
+let scheduleGroupMessages;
+
+try {
+    ({ sendWelcomeMessage } = await import('./functions/welcomeMessage.js'));
+    ({ checkViolation, notifyAdmins, notifyUser, logViolation } = await import('./functions/antiSpam.js'));
+    ({ addStrike, applyPunishment } = await import('./functions/strikeSystem.js'));
+    ({ incrementViolation, getGroupStatus } = await import('./functions/groupStats.js'));
+    ({ handleGroupMessages } = await import('./functions/groupResponder.js'));
+    ({ isAuthorized } = await import('./functions/adminCommands.js'));
+    ({ getNumberFromJid, formatNumberInternational } = await import('./functions/utils.js'));
+    ({ scheduleGroupMessages } = await import('./functions/scheduler.js'));
+} catch (e) {
+    console.warn('⚠️ Alguns módulos não foram encontrados:', e.message);
+}
 
 async function startBot() {
     console.log("===============================================");
