@@ -5,13 +5,12 @@ import qrcode from "qrcode-terminal";
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
 import { sendWelcomeMessage } from './functions/welcomeMessage.js';
 import { checkViolation, notifyAdmins, notifyUser, logViolation } from './functions/antiSpam.js';
 import { addStrike, applyPunishment } from './functions/strikeSystem.js';
 import { incrementViolation, getGroupStatus } from './functions/groupStats.js';
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
 import { handleGroupMessages } from './functions/groupResponder.js';
 import { isAuthorized } from './functions/adminCommands.js';
 import { getNumberFromJid, formatNumberInternational } from './functions/utils.js';
