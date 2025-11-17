@@ -22,6 +22,9 @@
     "qrcode-terminal": "^0.12.0",
     "puppeteer": "^24.15.0"
   },
+  "engines": {
+    "node": "18.x"
+  },
   "description": "",
   "main": "index.js",
   "keywords": [],
